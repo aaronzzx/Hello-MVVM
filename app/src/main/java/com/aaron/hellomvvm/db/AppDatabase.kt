@@ -19,7 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
         private const val DB_NAME = "hello-mvvm.db"
 
         private val db = Room.databaseBuilder(
-            App.getContext(),
+            App.context,
             AppDatabase::class.java,
             DB_NAME
         ).build()

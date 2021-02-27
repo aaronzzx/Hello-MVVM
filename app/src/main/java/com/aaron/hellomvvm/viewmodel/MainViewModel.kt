@@ -1,18 +1,20 @@
 package com.aaron.hellomvvm.viewmodel
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.aaron.hellomvvm.App
 import com.aaron.hellomvvm.bean.Person
 import com.aaron.hellomvvm.repository.PersonRepository
 import com.aaron.hellomvvm.utils.PersonRandomUtils
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.launch
 
 /**
  * @author aaronzzxup@gmail.com
  * @since 2021/2/25
  */
-class MainViewModel(
+@ActivityRetainedScoped
+class MainViewModel @ViewModelInject constructor(
     app: Application,
     private val personRepository: PersonRepository
 ) : AndroidViewModel(app) {
@@ -44,15 +46,5 @@ class MainViewModel(
 
     fun deleteAll() = viewModelScope.launch {
         personRepository.deleteAll()
-    }
-
-    class Factory : ViewModelProvider.NewInstanceFactory() {
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return modelClass.getConstructor(
-                Application::class.java,
-                PersonRepository::class.java
-            ).newInstance(App.getContext(), PersonRepository())
-        }
     }
 }

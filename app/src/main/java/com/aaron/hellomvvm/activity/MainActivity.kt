@@ -15,22 +15,24 @@ import com.aaron.hellomvvm.utils.PersonRandomUtils
 import com.aaron.hellomvvm.utils.dp
 import com.aaron.hellomvvm.utils.showToast
 import com.aaron.hellomvvm.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var adapter: MainAdapter
 
+    private val vm: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
             lifecycleOwner = this@MainActivity
             clickListener = this@MainActivity
-            vm = viewModels<MainViewModel> {
-                MainViewModel.Factory()
-            }.value
+            vm = this@MainActivity.vm
         }
 
         val listView = binding.listView
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             adapter = this
             setOnItemClickListener { person, pos ->
                 person ?: return@setOnItemClickListener
-                binding.vm?.delete(person)
+                vm.delete(person)
                 """
                     Delete person.
                     name: ${person.name}
@@ -54,10 +56,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v ?: return) {
             binding.btnInsert -> {
-                binding.vm?.add(PersonRandomUtils.randomPerson())
+                vm.add(PersonRandomUtils.randomPerson())
             }
             binding.btnDelete -> {
-                binding.vm?.deleteAll()
+                vm.deleteAll()
             }
         }
     }

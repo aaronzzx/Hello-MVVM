@@ -16,12 +16,12 @@ val Float.dp: Int
     ).toInt()
 
 val Int.color: Int
-    get() = ResourcesCompat.getColor(App.getContext().resources, this, null)
+    get() = ResourcesCompat.getColor(App.context.resources, this, null)
 
 private var toast: Toast? = null
 
 fun String.showToast(@ToastDuration duration: Int = Toast.LENGTH_SHORT) {
     toast?.cancel()
-    toast = Toast.makeText(App.getContext(), this, duration)
+    toast = Toast.makeText(App.context, this, duration)
     toast?.show()
 }
