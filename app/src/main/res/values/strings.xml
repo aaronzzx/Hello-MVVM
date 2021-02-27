@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Hello MVVM</string>
+
+    <string name="person_name_format">Name: %1$s</string>
+    <string name="person_age_format">Age: %1$d</string>
+    <string name="person_gender_format">Gender: %1$s</string>
+</resources>
