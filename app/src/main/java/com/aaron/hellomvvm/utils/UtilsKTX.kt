@@ -20,8 +20,13 @@ val Int.color: Int
 
 private var toast: Toast? = null
 
-fun String.showToast(@ToastDuration duration: Int = Toast.LENGTH_SHORT) {
+enum class ToastDuration(val toastDuration: Int) {
+    SHORT(Toast.LENGTH_SHORT),
+    LONG(Toast.LENGTH_LONG)
+}
+
+fun String.showToast(duration: ToastDuration = ToastDuration.SHORT) {
     toast?.cancel()
-    toast = Toast.makeText(App.context, this, duration)
+    toast = Toast.makeText(App.context, this, duration.toastDuration)
     toast?.show()
 }
